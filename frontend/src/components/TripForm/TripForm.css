@@ -1,0 +1,73 @@
+/* TripForm Styles */
+.trip-form-card {
+  padding: var(--space-lg);
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.form-title-icon {
+  font-size: 1.3rem;
+}
+
+.example-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.example-btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-medium);
+}
+
+.trip-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.label-icon {
+  font-size: 0.85rem;
+}
+
+.form-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.submit-btn {
+  flex: 1;
+}
+
+.submit-btn .spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}

@@ -1,0 +1,93 @@
+# ═══════════════════════════════════════════════════════════
+#  ELD Trip Planner — Taskfile
+#  https://taskfile.dev
+#  Install: sh -c "$(curl -fsSL https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+# ═══════════════════════════════════════════════════════════
+
+version: "3"
+
+vars:
+  VENV: backend/venv
+  PYTHON: "{{.VENV}}/bin/python"
+  PIP: "{{.VENV}}/bin/pip"
+  MANAGE: "{{.PYTHON}} backend/manage.py"
+
+tasks:
+  # ─── Default ─────────────────────────────────────────
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # ─── Install ────────────────────────────────────────
+  install:
+    desc: Install all dependencies (backend + frontend)
+    cmds:
+      - task: install:backend
+      - task: install:frontend
+
+  install:backend:
+    desc: Install Python dependencies + run migrations
+    cmds:
+      - test -d {{.VENV}} || python3 -m venv {{.VENV}}
+      - "{{.PIP}} install -r backend/requirements.txt -q"
+      - "{{.MANAGE}} migrate --run-syncdb"
+      - echo "✅ Backend ready"
+
+  install:frontend:
+    desc: Install Node dependencies
+    dir: frontend
+    cmds:
+      - npm install
+      - echo "✅ Frontend ready"
+
+  # ─── Development ────────────────────────────────────
+  dev:
+    desc: Run backend + frontend together
+    deps:
+      - dev:backend
+      - dev:frontend
+
+  dev:backend:
+    desc: Run Django dev server (port 8000)
+    cmds:
+      - echo "🟢 Backend → http://localhost:8000"
+      - "{{.MANAGE}} runserver 0.0.0.0:8000"
+
+  dev:frontend:
+    desc: Run Vite dev server (port 5173)
+    dir: frontend
+    cmds:
+      - echo "🟢 Frontend → http://localhost:5173"
+      - npm run dev
+
+  # ─── Database ───────────────────────────────────────
+  migrate:
+    desc: Run Django migrations
+    cmds:
+      - "{{.MANAGE}} migrate --run-syncdb"
+
+  # ─── Build ──────────────────────────────────────────
+  build:
+    desc: Build frontend for production
+    dir: frontend
+    cmds:
+      - npm run build
+
+  # ─── Utilities ──────────────────────────────────────
+  clean:
+    desc: Remove build artifacts and caches
+    cmds:
+      - rm -rf frontend/dist frontend/node_modules
+      - rm -rf {{.VENV}}
+      - find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+      - echo "🧹 Cleaned"
+
+  lint:
+    desc: Check Python syntax
+    cmds:
+      - "{{.PYTHON}} -m py_compile backend/trips/views.py"
+      - "{{.PYTHON}} -m py_compile backend/trips/services/hos_engine.py"
+      - "{{.PYTHON}} -m py_compile backend/trips/services/route_service.py"
+      - "{{.PYTHON}} -m py_compile backend/trips/services/eld_generator.py"
+      - echo "✅ No syntax errors"
