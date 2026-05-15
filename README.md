@@ -1,5 +1,6 @@
-loom video = https://www.loom.com/share/a3ca0e693e08466bb30111514fce3ccf
-frontend_url=https://eld-trip-planner-green.vercel.app/
+# loom video  https://www.loom.com/share/a3ca0e693e08466bb30111514fce3ccf
+
+# frontend_url=https://eld-trip-planner-green.vercel.app/
 
 # 🚛 ELD Trip Planner
 
