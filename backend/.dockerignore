@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment — never copy this into Docker
+venv/
+env/
+.venv/
+
+# Django local files
+db.sqlite3
+*.sqlite3
+staticfiles/
+
+# Environment secrets — never bake into image
+.env
+
+# Git
+.git/
+.gitignore
+
+# Dev / test files
+*.log
+.DS_Store
