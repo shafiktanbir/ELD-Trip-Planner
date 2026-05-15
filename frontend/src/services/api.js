@@ -14,12 +14,14 @@ const api = axios.create({
  * Plan a trip — sends trip details to the backend and returns
  * route, schedule, ELD logs, and map data.
  */
-export async function planTrip({ currentLocation, pickupLocation, dropoffLocation, currentCycleHours }) {
+export async function planTrip({ currentLocation, pickupLocation, dropoffLocation, currentCycleHours, startTime }) {
   const response = await api.post('/trips/plan/', {
     current_location: currentLocation,
     pickup_location: pickupLocation,
     dropoff_location: dropoffLocation,
     current_cycle_hours: parseFloat(currentCycleHours),
+    // Convert "YYYY-MM-DDTHH:MM" (local) to ISO 8601 with timezone
+    start_time: startTime ? new Date(startTime).toISOString() : undefined,
   });
   return response.data;
 }

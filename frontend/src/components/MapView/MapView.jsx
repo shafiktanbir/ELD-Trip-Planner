@@ -160,15 +160,8 @@ function MapView({ data }) {
     };
   }, [data]);
 
-  // Load Leaflet JS if not already loaded
-  useEffect(() => {
-    if (window.L) return;
 
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.async = true;
-    document.head.appendChild(script);
-  }, []);
+
 
   return (
     <div className="map-container glass-card">

@@ -56,6 +56,100 @@
   margin-top: 2px;
 }
 
+/* Datetime input */
+.form-input--datetime {
+  color-scheme: dark;
+}
+
+/* Help button next to label */
+.help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-medium);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  cursor: pointer;
+  margin-left: var(--space-xs);
+  transition: all var(--transition-fast);
+  vertical-align: middle;
+}
+
+.help-btn:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: white;
+}
+
+/* Help explanation box */
+.help-box {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.help-box strong {
+  color: var(--text-accent);
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-sm);
+}
+
+.help-box p {
+  margin-bottom: var(--space-xs);
+}
+
+.help-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: var(--space-xs) !important;
+}
+
+.help-examples span {
+  display: block;
+}
+
+/* Cycle hours progress bar */
+.cycle-bar-wrap {
+  position: relative;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  margin-top: var(--space-xs);
+  overflow: hidden;
+}
+
+.cycle-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+  min-width: 0%;
+}
+
+.cycle-bar-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Actions */
 .form-actions {
   display: flex;
   gap: var(--space-sm);

@@ -10,12 +10,15 @@
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-md);
 }
 
 .log-date-info {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  flex: 1;
+  min-width: 0;
 }
 
 .log-day-badge {
@@ -27,30 +30,126 @@
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  flex-shrink: 0;
 }
 
 .log-date {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
+  margin: 0;
+}
+
+.log-date-sub {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1px;
+}
+
+.log-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
 }
 
 .log-miles {
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
 }
 
 .log-miles-value {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--accent-cyan);
+  line-height: 1;
 }
 
 .log-miles-label {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
   text-transform: uppercase;
+}
+
+/* Compliance badge */
+.log-compliance {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.log-compliance.compliant {
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  color: var(--accent-green);
+}
+
+.log-compliance.violation {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: var(--accent-red);
+}
+
+/* Driving Hours Bars */
+.log-hours-bar-wrap {
+  padding: var(--space-sm) var(--space-lg);
+  background: rgba(10, 14, 26, 0.3);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.log-hours-bar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.log-hours-bar-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  width: 52px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.log-hours-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.log-hours-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.log-hours-bar-fill--driving {
+  background: var(--accent-green);
+}
+
+.log-hours-bar-fill--onduty {
+  background: var(--accent-orange);
+}
+
+.log-hours-bar-value {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  width: 110px;
+  flex-shrink: 0;
+  text-align: right;
 }
 
 /* Canvas Container */

@@ -214,11 +214,46 @@ function ELDLogSheet({ log, index }) {
       <div className="log-header">
         <div className="log-date-info">
           <span className="log-day-badge">Day {log.day_number}</span>
-          <h4 className="log-date">{formatDate(log.date)}</h4>
+          <div>
+            <h4 className="log-date">{formatDate(log.date)}</h4>
+            <span className="log-date-sub">FMCSA Electronic Log — Property Carrier</span>
+          </div>
         </div>
-        <div className="log-miles">
-          <span className="log-miles-value">{log.total_miles?.toFixed(0) || 0}</span>
-          <span className="log-miles-label">miles</span>
+        <div className="log-header-right">
+          <div className="log-miles">
+            <span className="log-miles-value">{log.total_miles?.toFixed(0) || 0}</span>
+            <span className="log-miles-label">miles driven</span>
+          </div>
+          {/* Compliance indicator */}
+          <div className={`log-compliance ${(log.totals?.driving || 0) <= 11 ? 'compliant' : 'violation'}`}>
+            {(log.totals?.driving || 0) <= 11 ? '✅ HOS OK' : '⚠️ Check Hours'}
+          </div>
+        </div>
+      </div>
+
+      {/* Driving Hours Bar */}
+      <div className="log-hours-bar-wrap">
+        <div className="log-hours-bar-row">
+          <span className="log-hours-bar-label">Driving</span>
+          <div className="log-hours-bar-track">
+            <div
+              className="log-hours-bar-fill log-hours-bar-fill--driving"
+              style={{ width: `${Math.min((log.totals?.driving || 0) / 11 * 100, 100)}%` }}
+            />
+          </div>
+          <span className="log-hours-bar-value">{formatHours(log.totals?.driving || 0)} / 11h</span>
+        </div>
+        <div className="log-hours-bar-row">
+          <span className="log-hours-bar-label">On Duty</span>
+          <div className="log-hours-bar-track">
+            <div
+              className="log-hours-bar-fill log-hours-bar-fill--onduty"
+              style={{ width: `${Math.min(((log.totals?.driving || 0) + (log.totals?.on_duty_not_driving || 0)) / 14 * 100, 100)}%` }}
+            />
+          </div>
+          <span className="log-hours-bar-value">
+            {formatHours((log.totals?.driving || 0) + (log.totals?.on_duty_not_driving || 0))} / 14h window
+          </span>
         </div>
       </div>
 
@@ -258,7 +293,7 @@ function ELDLogSheet({ log, index }) {
       {/* Remarks */}
       {log.remarks && log.remarks.length > 0 && (
         <div className="log-remarks">
-          <h5 className="remarks-title">Remarks & Conditions</h5>
+          <h5 className="remarks-title">Remarks &amp; Conditions</h5>
           <div className="remarks-list">
             {log.remarks.map((remark, i) => (
               <div key={i} className="remark-item">

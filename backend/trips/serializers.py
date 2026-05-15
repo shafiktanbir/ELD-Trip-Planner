@@ -24,7 +24,8 @@ class TripInputSerializer(serializers.Serializer):
     """
     Input data for trip planning.
 
-    Accepts current location, pickup, dropoff, and current cycle hours used.
+    Accepts current location, pickup, dropoff, cycle hours used,
+    and an optional start_time (ISO 8601). Defaults to now.
     """
     current_location = serializers.CharField(
         max_length=500,
@@ -40,6 +41,12 @@ class TripInputSerializer(serializers.Serializer):
     )
     current_cycle_hours = serializers.FloatField(
         min_value=0,
-        max_value=70,
-        help_text="Hours already used in the current 70-hour/8-day cycle"
+        max_value=69,
+        help_text="Hours already used in the current 70-hour/8-day cycle (0–69)"
+    )
+    start_time = serializers.DateTimeField(
+        required=False,
+        allow_null=True,
+        default=None,
+        help_text="When the trip starts (ISO 8601). Defaults to now if not provided."
     )

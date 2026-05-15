@@ -64,10 +64,16 @@ class PlanTripView(APIView):
             route_data = get_route(current, pickup, dropoff)
 
             # Step 3: Calculate HOS-compliant schedule
+            # Use provided start_time or default to now (strip timezone for naive datetime)
+            start_time = data.get('start_time')
+            if start_time is not None:
+                # Make timezone-naive for the HOS engine
+                start_time = start_time.replace(tzinfo=None).replace(second=0, microsecond=0)
+
             schedule_data = calculate_schedule(
                 route_data=route_data,
                 current_cycle_used=data['current_cycle_hours'],
-                start_time=datetime.now().replace(second=0, microsecond=0),
+                start_time=start_time,  # None → engine defaults to now
             )
 
             # Step 4: Generate daily ELD logs
