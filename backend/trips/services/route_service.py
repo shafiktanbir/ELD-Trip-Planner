@@ -108,6 +108,43 @@ def geocode_location(text: str) -> dict:
         raise RouteServiceError(f"Geocoding error: {e}")
 
 
+# ORS hard limit for driving-hgv route distance (~3,728 mi = 6,000,000 m)
+_ORS_MAX_ROUTE_MILES = 3700
+
+
+def _validate_route_distance(origin: dict, pickup: dict, dropoff: dict) -> None:
+    """
+    Pre-flight check: reject routes whose straight-line total exceeds the ORS
+    maximum before making an API call.
+
+    ORS limits driving-hgv routes to 6,000,000 m (~3,728 miles).  We use a
+    conservative 3,700-mile cap on the haversine (straight-line) distance,
+    which is always shorter than the actual road distance.
+
+    Raises:
+        RouteServiceError: If the estimated route is too long.
+    """
+    import math
+
+    def haversine_miles(a: dict, b: dict) -> float:
+        R = 3959
+        lat1, lng1 = math.radians(a['lat']), math.radians(a['lng'])
+        lat2, lng2 = math.radians(b['lat']), math.radians(b['lng'])
+        dlat, dlng = lat2 - lat1, lng2 - lng1
+        x = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlng / 2) ** 2
+        return R * 2 * math.atan2(math.sqrt(x), math.sqrt(1 - x))
+
+    total = haversine_miles(origin, pickup) + haversine_miles(pickup, dropoff)
+    if total > _ORS_MAX_ROUTE_MILES:
+        raise RouteServiceError(
+            f"The total route distance is approximately {total:,.0f} miles, "
+            f"which exceeds the maximum supported route length of "
+            f"{_ORS_MAX_ROUTE_MILES:,} miles. "
+            "Please choose locations that are closer together — "
+            "this planner is designed for US domestic trips."
+        )
+
+
 def get_route(
     origin: dict,
     pickup: dict,
@@ -128,6 +165,9 @@ def get_route(
     Raises:
         RouteServiceError: If routing fails
     """
+    # Guard: reject before hitting ORS if the route is already too long
+    _validate_route_distance(origin, pickup, dropoff)
+
     api_key = _get_api_key()
 
     # Build coordinate pairs: [lng, lat] format for ORS
@@ -166,6 +206,13 @@ def get_route(
                 msg = err_data.get('error', {}).get('message', str(e))
             except Exception:
                 msg = str(e)
+            # Make the ORS distance-limit error more user-friendly
+            if 'exceed' in msg.lower() and 'distance' in msg.lower():
+                raise RouteServiceError(
+                    "Route too long: the total trip distance exceeds the "
+                    f"routing service limit of ~{_ORS_MAX_ROUTE_MILES:,} miles. "
+                    "Please choose locations closer together."
+                )
             raise RouteServiceError(f"Routing error: {msg}")
         raise RouteServiceError(f"Routing error: {e}")
 
