@@ -20,8 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # ── Copy project code ──────────────────────────────────────────
 COPY . .
 
-# ── Collect static files ───────────────────────────────────────
-RUN python manage.py collectstatic --noinput
+# ── Collect static files (needs a dummy SECRET_KEY at build time) ─
+RUN DJANGO_SECRET_KEY=build-time-dummy-key-not-used-in-production \
+    ALLOWED_HOSTS=* \
+    python manage.py collectstatic --noinput
 
 # ── Expose port ────────────────────────────────────────────────
 EXPOSE 8000

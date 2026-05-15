@@ -1,3 +1,6 @@
+
+frontend_url=https://eld-trip-planner-green.vercel.app/
+
 # 🚛 ELD Trip Planner
 
 > **Full-Stack Assessment Project** — Django + React  
