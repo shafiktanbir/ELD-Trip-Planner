@@ -74,6 +74,18 @@ tasks:
     cmds:
       - npm run build
 
+  # ─── Testing ─────────────────────────────────────────
+  test:
+    desc: Run all backend tests
+    cmds:
+      - task: test:backend
+
+  test:backend:
+    desc: Run Django test suite (HOS engine + API integration)
+    cmds:
+      - echo "🧪 Running backend tests..."
+      - "{{.MANAGE}} test trips.tests --verbosity=2"
+
   # ─── Utilities ──────────────────────────────────────
   clean:
     desc: Remove build artifacts and caches
@@ -90,4 +102,6 @@ tasks:
       - "{{.PYTHON}} -m py_compile backend/trips/services/hos_engine.py"
       - "{{.PYTHON}} -m py_compile backend/trips/services/route_service.py"
       - "{{.PYTHON}} -m py_compile backend/trips/services/eld_generator.py"
+      - "{{.PYTHON}} -m py_compile backend/trips/tests/test_hos_engine.py"
+      - "{{.PYTHON}} -m py_compile backend/trips/tests/test_api.py"
       - echo "✅ No syntax errors"

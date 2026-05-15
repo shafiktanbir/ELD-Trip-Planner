@@ -186,3 +186,214 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── FMCSA Rules Section ───────────────────────────────── */
+.empty-state-rules {
+  margin-top: var(--space-xl);
+  text-align: center;
+}
+
+.empty-state-rules h3 {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.rules-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  max-width: 480px;
+}
+
+.rule-pill {
+  padding: 0.3rem 0.9rem;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  color: var(--text-accent);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+  transition: all var(--transition-fast);
+}
+
+.rule-pill:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* ─── Loading Truck Animation ───────────────────────────── */
+.loading-truck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.loading-truck-icon {
+  font-size: 3rem;
+  animation: truckBounce 1s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.4));
+}
+
+@keyframes truckBounce {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(4px) translateY(-3px); }
+  75% { transform: translateX(-4px) translateY(-1px); }
+}
+
+.loading-road {
+  width: 180px;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-dashes {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-blue) 0%,
+    var(--accent-blue) 40%,
+    transparent 40%,
+    transparent 100%
+  );
+  background-size: 40px 100%;
+  animation: roadScroll 0.8s linear infinite;
+}
+
+@keyframes roadScroll {
+  from { background-position: 0 0; }
+  to { background-position: 40px 0; }
+}
+
+.loading-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+/* ─── Loading Steps ────────────────────────────────────── */
+.loading-steps {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.step {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-normal);
+}
+
+.step--active {
+  color: var(--accent-blue-light);
+  border-color: var(--border-medium);
+  animation: stepPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes stepPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.step-arrow {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* ─── ELD Section Header ────────────────────────────────── */
+.eld-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.eld-section-header .section-title {
+  margin-bottom: 0;
+}
+
+.print-btn {
+  padding: var(--space-xs) var(--space-md) !important;
+  font-size: var(--font-size-sm) !important;
+  gap: var(--space-xs);
+}
+
+/* ─── Print Styles ──────────────────────────────────────── */
+@media print {
+  /* Hide everything except ELD log sheets */
+  .layout-header,
+  .app-sidebar,
+  .map-section,
+  .eld-section-header .print-btn,
+  .error-card,
+  .empty-state,
+  .loading-overlay,
+  .toast {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  .app-content {
+    flex-direction: column;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .app-main {
+    width: 100%;
+  }
+
+  .eld-logs-container {
+    gap: 0;
+  }
+
+  .eld-log-sheet {
+    break-inside: avoid;
+    page-break-after: always;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .eld-log-sheet:last-child {
+    page-break-after: avoid;
+  }
+
+  .log-canvas {
+    filter: invert(0) !important;
+  }
+
+  .results-container {
+    gap: 0;
+  }
+
+  .eld-section {
+    margin-top: 0;
+  }
+}
+

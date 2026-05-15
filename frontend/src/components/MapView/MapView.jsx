@@ -172,12 +172,35 @@ function MapView({ data }) {
 
   return (
     <div className="map-container glass-card">
+      {data?.route && (
+        <div className="map-stats-bar">
+          <div className="map-stat">
+            <span className="map-stat-value">{data.route.total_distance_miles?.toFixed(0)} mi</span>
+            <span className="map-stat-label">Total Distance</span>
+          </div>
+          <div className="map-stat-divider" />
+          <div className="map-stat">
+            <span className="map-stat-value">{data.summary?.num_fuel_stops || 0}</span>
+            <span className="map-stat-label">⛽ Fuel Stops</span>
+          </div>
+          <div className="map-stat-divider" />
+          <div className="map-stat">
+            <span className="map-stat-value">{data.summary?.num_rest_stops || 0}</span>
+            <span className="map-stat-label">🛏️ Rest Stops</span>
+          </div>
+          <div className="map-stat-divider" />
+          <div className="map-stat">
+            <span className="map-stat-value">{data.summary?.num_breaks || 0}</span>
+            <span className="map-stat-label">☕ Breaks</span>
+          </div>
+        </div>
+      )}
       <div ref={mapRef} className="map-element" id="trip-map" />
       {data?.route && (
         <div className="map-legend">
           <div className="legend-item">
             <span className="legend-dot" style={{ background: '#6366f1' }} />
-            <span>Route ({data.route.total_distance_miles?.toFixed(0)} mi)</span>
+            <span>Route</span>
           </div>
           <div className="legend-item">
             <span>📌</span> <span>Start</span>
@@ -192,11 +215,16 @@ function MapView({ data }) {
             <span>⛽</span> <span>Fuel</span>
           </div>
           <div className="legend-item">
-            <span>🛏️</span> <span>Rest</span>
+            <span>🛏️</span> <span>Rest (10h)</span>
           </div>
           <div className="legend-item">
-            <span>☕</span> <span>Break</span>
+            <span>☕</span> <span>Break (30m)</span>
           </div>
+          {data.summary?.num_cycle_restarts > 0 && (
+            <div className="legend-item">
+              <span>🔄</span> <span>Cycle Restart</span>
+            </div>
+          )}
         </div>
       )}
     </div>

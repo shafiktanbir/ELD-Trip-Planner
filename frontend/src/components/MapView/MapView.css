@@ -4,12 +4,52 @@
   position: relative;
 }
 
+/* Map Stats Bar */
+.map-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.map-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.map-stat-value {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.map-stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--font-weight-medium);
+}
+
+.map-stat-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border-subtle);
+  margin: 0 var(--space-xs);
+}
+
 .map-element {
   width: 100%;
-  height: 500px;
-  border-radius: var(--radius-lg);
+  height: 460px;
+  border-radius: 0;
   z-index: 1;
 }
+
 
 /* Custom Leaflet Marker */
 .custom-marker {
