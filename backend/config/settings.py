@@ -107,12 +107,9 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'trips.utils.custom_exception_handler',
 }
 
-# ─── CORS ─────────────────────────────────────────────────────
-CORS_ALLOWED_ORIGINS = os.getenv(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:5173,http://127.0.0.1:5173,https://eld-trip-planner-green.vercel.app'
-).split(',')
-
+# Allow all origins — fine for this assessment project
+# In production, restrict to specific frontend domains
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # ─── OpenRouteService ────────────────────────────────────────
